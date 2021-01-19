@@ -1,13 +1,13 @@
 import { actorCollection, albumCollection, albumItemCollection } from "../database";
 import { generateHash } from "../utils/hash";
+import { logger } from "../utils/logger";
+import { arrayDiff, createObjectSet } from "../utils/misc";
 import Actor from "./actor";
 import ActorReference from "./actor_reference";
+import Image from "./image";
 import ImageAlbumItem from "./image_album_item";
 import Label from "./label";
-import Image from "./image";
-import { arrayDiff, createObjectSet } from "../utils/misc";
 import LabelledItem from "./labelled_item";
-import { logger } from "../utils/logger";
 
 export default class ImageAlbum {
   _id: string;

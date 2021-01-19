@@ -1,13 +1,14 @@
 import { existsSync } from "fs";
 import ora from "ora";
 
-import ImageAlbum from "../types/image_album";
 import args from "../args";
 import { ISceneProcessingItem } from "../queue/processing";
 import Actor from "../types/actor";
 import ActorReference from "../types/actor_reference";
 import CustomField from "../types/custom_field";
 import Image from "../types/image";
+import ImageAlbum from "../types/image_album";
+import ImageAlbumItem from "../types/image_album_item";
 import Label from "../types/label";
 import LabelledItem from "../types/labelled_item";
 import Marker from "../types/marker";
@@ -20,7 +21,6 @@ import { mkdirpSync } from "../utils/fs/async";
 import { logger } from "../utils/logger";
 import { libraryPath } from "../utils/path";
 import { Izzy } from "./internal";
-import ImageAlbumItem from "../types/image_album_item";
 
 mkdirpSync("backups/");
 mkdirpSync("tmp/");
@@ -142,16 +142,20 @@ export async function loadStores(): Promise<void> {
     },
   ]);
 
-  albumItemCollection = await Izzy.createCollection("album_items", libraryPath("image_albums_items.db"), [
-    {
-      name: "album-index",
-      key: "album",
-    },
-    {
-      name: "image-index",
-      key: "image",
-    },
-  ]);
+  albumItemCollection = await Izzy.createCollection(
+    "album_items",
+    libraryPath("image_albums_items.db"),
+    [
+      {
+        name: "album-index",
+        key: "album",
+      },
+      {
+        name: "image-index",
+        key: "image",
+      },
+    ]
+  );
 
   sceneCollection = await Izzy.createCollection("scenes", libraryPath("scenes.db"), [
     {

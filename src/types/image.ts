@@ -152,8 +152,10 @@ export default class Image {
     return imageCollection.getAll();
   }
 
-  static async getActors(image: Image): Promise<Actor[]> {
-    const references = await ActorReference.getByItem(image._id);
+  static async getActors(image: Image | string): Promise<Actor[]> {
+    const references = await ActorReference.getByItem(
+      typeof image === "string" ? image : image._id
+    );
     return (await actorCollection.getBulk(references.map((r) => r.actor)))
       .filter(Boolean)
       .sort((a, b) => a.name.localeCompare(b.name));
@@ -171,8 +173,8 @@ export default class Image {
     return Label.setForItem(image._id, labelIds, "image");
   }
 
-  static async getLabels(image: Image): Promise<Label[]> {
-    return Label.getForItem(image._id);
+  static async getLabels(image: Image | string): Promise<Label[]> {
+    return Label.getForItem(typeof image === "string" ? image : image._id);
   }
 
   static async getImageByPath(path: string): Promise<Image | undefined> {

@@ -2,7 +2,14 @@
   <v-row dense>
     <v-col :cols="cols" :sm="sm" :md="md" :lg="lg" :xl="xl" v-for="actor in value" :key="actor._id">
       <router-link :to="`/actor/${actor._id}`">
-        <v-img style="border-radius: 8px" v-ripple height="100%" cover :src="thumbnail(actor)">
+        <v-img
+          class="hover"
+          style="border-radius: 8px"
+          v-ripple
+          height="100%"
+          cover
+          :src="thumbnail(actor)"
+        >
           <Flag
             class="elevation-2"
             style="position: absolute; left: 2px; top: 2px"

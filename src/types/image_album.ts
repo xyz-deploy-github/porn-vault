@@ -11,7 +11,6 @@ import LabelledItem from "./labelled_item";
 
 export default class ImageAlbum {
   _id: string;
-  hash: string | null = null;
   name: string;
   description: string | null = null;
   addedOn = +new Date();

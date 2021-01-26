@@ -30,6 +30,21 @@ export default class ImageAlbum {
     this.name = name.trim();
   }
 
+  static async addImages(album: ImageAlbum, imageIds: string[]): Promise<ImageAlbumItem[]> {
+    const items = [] as ImageAlbumItem[];
+    let index = 0;
+
+    for (const id of imageIds) {
+      const item = new ImageAlbumItem(album._id, id);
+      logger.debug(`${index} Adding image to album: ${JSON.stringify(item)}`);
+      item.index = index++;
+      await albumItemCollection.upsert(item._id, item);
+      items.push(item);
+    }
+
+    return items;
+  }
+
   static async setImages(album: ImageAlbum, imageIds: string[]): Promise<void> {
     const oldRefs = await ImageAlbumItem.getByAlbum(album._id);
 
@@ -39,13 +54,7 @@ export default class ImageAlbum {
       await albumCollection.remove(oldRef._id);
     }
 
-    let index = 0;
-    for (const id of added) {
-      const item = new ImageAlbumItem(album._id, id);
-      logger.debug(`${index} Adding image to album: ${JSON.stringify(item)}`);
-      item.index = index++;
-      await albumItemCollection.upsert(item._id, item);
-    }
+    await ImageAlbum.addImages(album, added);
   }
 
   static async syncActors(album: ImageAlbum): Promise<number> {

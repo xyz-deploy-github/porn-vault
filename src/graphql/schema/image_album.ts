@@ -7,9 +7,25 @@ export default gql`
     items: [ImageAlbum!]!
   }
 
+  type AlbumSearchQuery {
+    query: String
+    favorite: Boolean
+    bookmark: Boolean
+    rating: Int
+    include: [String!]
+    exclude: [String!]
+    sortBy: String
+    sortDir: String
+    skip: Int
+    take: Int
+    page: Int
+    studios: [String!]
+    scenes: [String!]
+  }
+
   extend type Query {
     numAlbums: Int!
-    # getAlbums(query: AlbumSearchQuery!, seed: String): AlbumSearchResults!
+    getAlbums(query: AlbumSearchQuery!, seed: String): AlbumSearchResults!
     getAlbumById(id: String!): ImageAlbum
   }
 
@@ -37,6 +53,8 @@ export default gql`
 
   extend type Mutation {
     addAlbum(name: String!, images: [String!], scene: String): ImageAlbum!
+    appendImages(album: String!, images: [String!]!): [Image!]!
+    spliceImages(album: String!, ids: [String!]!): Boolean!
     removeAlbums(ids: [String!]!): Boolean!
   }
 `;

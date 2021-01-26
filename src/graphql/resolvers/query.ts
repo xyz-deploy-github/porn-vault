@@ -16,6 +16,7 @@ import { getMarkers } from "./search/marker";
 import { getMovies } from "./search/movie";
 import { getScenes } from "./search/scene";
 import { getStudios } from "./search/studio";
+import { getAlbums } from "./search/image_album";
 
 export default {
   async getWatches(
@@ -194,6 +195,7 @@ export default {
   getScenes,
   getImages,
   getMarkers,
+  getAlbums,
 
   async getImageById(_: unknown, { id }: { id: string }): Promise<Image | null> {
     return await Image.getById(id);

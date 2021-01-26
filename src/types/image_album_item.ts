@@ -1,5 +1,4 @@
 import { albumItemCollection } from "../database";
-import { generateHash } from "../utils/hash";
 
 export default class ImageAlbumItem {
   _id: string;
@@ -8,9 +7,13 @@ export default class ImageAlbumItem {
   index?: number;
 
   constructor(album: string, image: string) {
-    this._id = `ai_${generateHash()}`;
+    this._id = ImageAlbumItem.getId(album, image);
     this.album = album;
     this.image = image;
+  }
+
+  static getId(album: string, image: string) {
+    return `ai_${album}-${image}`;
   }
 
   static async getByAlbum(album: string): Promise<ImageAlbumItem[]> {

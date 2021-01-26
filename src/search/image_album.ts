@@ -4,6 +4,21 @@ import Studio from "../types/studio";
 import { mapAsync } from "../utils/async";
 import { logger } from "../utils/logger";
 import { addSearchDocs, buildIndex, indexItems, ProgressCallback } from "./internal/buildIndex";
+import {
+  arrayFilter,
+  bookmark,
+  excludeFilter,
+  favorite,
+  getCount,
+  getPage,
+  getPageSize,
+  includeFilter,
+  ISearchResults,
+  ratingFilter,
+  searchQuery,
+  shuffle,
+  sort,
+} from "./common";
 
 export interface IAlbumSearchDoc {
   id: string;
@@ -80,44 +95,31 @@ export async function buildAlbumIndex(): Promise<void> {
   await buildIndex(indexMap.imageAlbums, ImageAlbum.getAll, indexAlbums);
 }
 
-/* export interface IAlbumSearchQuery {
+export interface IAlbumSearchQuery {
   query: string;
   favorite?: boolean;
   bookmark?: boolean;
   rating: number;
   include?: string[];
   exclude?: string[];
-  nationality?: string;
   sortBy?: string;
   sortDir?: string;
   skip?: number;
   take?: number;
   page?: number;
   studios?: string[];
-  custom?: CustomFieldFilter[];
+  scenes?: string[];
+  // custom?: CustomFieldFilter[];
 }
 
-function nationalityFilter(countryCode: string | undefined) {
-  if (countryCode) {
-    return [
-      {
-        match: {
-          countryCode,
-        },
-      },
-    ];
-  }
-  return [];
-}
-
-export async function searchActors(
-  options: Partial<IActorSearchQuery>,
+export async function searchAlbums(
+  options: Partial<IAlbumSearchQuery>,
   shuffleSeed = "default",
   extraFilter: unknown[] = []
 ): Promise<ISearchResults> {
-  logger.verbose(`Searching actors for '${options.query || "<no query>"}'...`);
+  logger.verbose(`Searching image albums for '${options.query || "<no query>"}'...`);
 
-  const count = await getCount(indexMap.actors);
+  const count = await getCount(indexMap.imageAlbums);
   if (count === 0) {
     logger.debug(`No items in ES, returning 0`);
     return {
@@ -127,7 +129,7 @@ export async function searchActors(
     };
   }
 
-  const result = await getClient().search<IActorSearchDoc>({
+  const result = await getClient().search<IAlbumSearchDoc>({
     index: indexMap.actors,
     ...getPage(options.page, options.skip, options.take),
     body: {
@@ -137,7 +139,7 @@ export async function searchActors(
         bool: {
           must: [
             ...shuffle(shuffleSeed, options.sortBy),
-            ...searchQuery(options.query, ["name^1.5", "labelNames", "nationalityName^0.75"]),
+            ...searchQuery(options.query, ["name^1.5", "labelNames"]),
           ],
           filter: [
             ...ratingFilter(options.rating),
@@ -148,10 +150,9 @@ export async function searchActors(
             ...excludeFilter(options.exclude),
 
             ...arrayFilter(options.studios, "studios", "OR"),
+            ...arrayFilter(options.scenes, "scenes", "OR"),
 
-            ...nationalityFilter(options.nationality),
-
-            ...buildCustomFilter(options.custom),
+            // ...buildCustomFilter(options.custom),
 
             ...extraFilter,
           ],
@@ -168,4 +169,4 @@ export async function searchActors(
     total,
     numPages: Math.ceil(total / getPageSize(options.take)),
   };
-} */
+}

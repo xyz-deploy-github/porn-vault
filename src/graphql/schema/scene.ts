@@ -66,12 +66,12 @@ export default gql`
     availableFields: [CustomField!]!
     thumbnail: Image
     preview: Image
-    images: [Image!]!
     actors: [Actor!]!
     labels: [Label!]!
     studio: Studio
     markers: [Marker!]!
     movies: [Movie!]!
+    # TODO: albums: [ImageAlbum!]!
   }
 
   type RunFFProbeResult {

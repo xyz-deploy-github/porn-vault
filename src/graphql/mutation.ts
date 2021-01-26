@@ -6,8 +6,10 @@ import MarkerMutations from "./mutations/marker";
 import MovieMutations from "./mutations/movie";
 import SceneMutations from "./mutations/scene";
 import StudioMutations from "./mutations/studio";
+import ImageAlbumMutations from "./mutations/image_album";
 
 export default {
+  ...ImageAlbumMutations,
   ...ImageMutations,
   ...ActorMutations,
   ...LabelMutations,

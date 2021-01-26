@@ -13,6 +13,7 @@ import QueryResolvers from "./resolvers/query";
 import SceneResolver from "./resolvers/scene";
 import SceneViewResolver from "./resolvers/scene_view";
 import StudioResolver from "./resolvers/studio";
+import ImageAlbumResolver from "./resolvers/image_album";
 
 const resolvers = {
   Upload: GraphQLUpload,
@@ -32,6 +33,8 @@ const resolvers = {
   CustomField: CustomFieldResolver,
   Marker: MarkerResolver,
   SceneView: SceneViewResolver,
+
+  ImageAlbum: ImageAlbumResolver,
 };
 
 export default resolvers;

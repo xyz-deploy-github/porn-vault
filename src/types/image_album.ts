@@ -21,6 +21,9 @@ export default class ImageAlbum {
   rating = 0;
   customFields: Record<string, boolean | string | number | string[] | null> = {};
   scene: string | null = null;
+  size: number = 0;
+  numImages: number = 0;
+  studio: string | null = null;
 
   constructor(name: string) {
     this._id = `ia_${generateHash()}`;

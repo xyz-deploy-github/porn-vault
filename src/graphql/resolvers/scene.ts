@@ -12,26 +12,29 @@ export default {
   async actors(scene: Scene): Promise<Actor[]> {
     return await Scene.getActors(scene);
   },
-  async images(scene: Scene): Promise<Image[]> {
-    return await Image.getByScene(scene._id);
-  },
   async labels(scene: Scene): Promise<Label[]> {
     return await Scene.getLabels(scene);
   },
   async thumbnail(scene: Scene): Promise<Image | null> {
-    if (scene.thumbnail) return await Image.getById(scene.thumbnail);
+    if (scene.thumbnail) {
+      return Image.getById(scene.thumbnail);
+    }
     return null;
   },
   async preview(scene: Scene): Promise<Image | null> {
-    if (scene.preview) return await Image.getById(scene.preview);
+    if (scene.preview) {
+      return Image.getById(scene.preview);
+    }
     return null;
   },
   async studio(scene: Scene): Promise<Studio | null> {
-    if (scene.studio) return Studio.getById(scene.studio);
+    if (scene.studio) {
+      return Studio.getById(scene.studio);
+    }
     return null;
   },
   async markers(scene: Scene): Promise<Marker[]> {
-    return await Scene.getMarkers(scene);
+    return Scene.getMarkers(scene);
   },
   async availableFields(): Promise<CustomField[]> {
     const fields = await CustomField.getAll();

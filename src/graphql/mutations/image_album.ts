@@ -5,6 +5,7 @@ import ActorReference from "../../types/actor_reference";
 import { albumCollection } from "../../database";
 import Image from "../../types/image";
 import { statAsync } from "../../utils/fs/async";
+import { indexAlbums, removeAlbum } from "../../search/image_album";
 
 export default {
   async addAlbum(
@@ -38,7 +39,7 @@ export default {
     await ImageAlbum.syncActors(album);
     await ImageAlbum.syncLabels(album);
 
-    // TODO: index into ES await indexMovies([album]);
+    await indexAlbums([album]);
 
     return album;
   },
@@ -49,7 +50,8 @@ export default {
 
       if (album) {
         await ImageAlbum.remove(album._id);
-        // TODO: remove from ES
+        await removeAlbum(album._id);
+
         await ActorReference.removeByItem(album._id);
         await LabelledItem.removeByItem(album._id);
         await ImageAlbumItem.removeByAlbum(album._id);

@@ -44,6 +44,7 @@ export const indexMap = {
   studios: formatName("studios"),
   movies: formatName("movies"),
   markers: formatName("markers"),
+  imageAlbums: formatName("image_albums"),
 };
 
 const indices = Object.values(indexMap);

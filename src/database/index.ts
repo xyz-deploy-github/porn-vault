@@ -37,7 +37,7 @@ export let markerCollection!: Izzy.Collection<Marker>;
 export let studioCollection!: Izzy.Collection<Studio>;
 export let processingCollection!: Izzy.Collection<ISceneProcessingItem>;
 
-function formatName(name: string) {
+export function formatName(name: string) {
   if (!process.env.NODE_ENV || process.env.NODE_ENV === "production") {
     return `${name}`;
   }
